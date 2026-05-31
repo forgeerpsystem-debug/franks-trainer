@@ -34,7 +34,7 @@ if st.session_state.user is None:
 st.title("💪 Franks Trainer")
 
 # Native Mobile Tabs
-tab1, tab2, tab3, tab4, tab5 = st.tabs(["📋 Plan", "📝 Log", "📊 Stats", "🥩 Macros", "⚙️ Manage"])
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📋 Plan", "📝 Log", "📊 Stats", "🥩 Macros", "🍗 Meals", "⚙️ Manage"])
 
 with tab1:
     from src.components import program
@@ -53,5 +53,9 @@ with tab4:
     macros.render(user_id=st.session_state.user.id)
     
 with tab5:
+    from src.components import meal_plan
+    meal_plan.render()
+    
+with tab6:
     from src.components import manage
     manage.render()
