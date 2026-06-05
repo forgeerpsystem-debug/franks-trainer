@@ -1,5 +1,5 @@
 import streamlit as st
-from src.database import save_macros, get_todays_macros
+from src.db.macros import save_macros, get_todays_macros
 
 def render(user_id: str):
     st.header("Daily Nutrition")

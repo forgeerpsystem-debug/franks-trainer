@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime
-from src.database import get_workout_history, get_exercises, get_exercise_history
+from src.db.workouts import get_workout_history
+from src.db.exercises import get_exercises, get_exercise_history
 
 def render(user_id: str):
     # ==========================================

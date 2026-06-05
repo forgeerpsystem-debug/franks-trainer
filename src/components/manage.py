@@ -1,5 +1,5 @@
 import streamlit as st
-from src.database import add_exercise, get_exercises
+from src.db.exercises import add_exercise, get_exercises
 
 def render():
     st.header("⚙️ Manage Library")

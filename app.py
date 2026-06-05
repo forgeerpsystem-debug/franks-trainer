@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from src.database import supabase
+from src.db.core import supabase
 
 # Configure the browser tab
 st.set_page_config(page_title="Franks Trainer", page_icon="💪", layout="centered")

@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from src.database import get_exercises, save_workout
+from src.db.exercises import get_exercises
+from src.db.workouts import save_workout
 from src.components import timer
 
 def render(user_id: str):
