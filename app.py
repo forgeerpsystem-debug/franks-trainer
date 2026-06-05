@@ -5,6 +5,39 @@ from src.db.core import supabase
 # Configure the browser tab
 st.set_page_config(page_title="Franks Trainer", page_icon="💪", layout="centered")
 
+# ==========================================
+# UI TWEAKS & iOS ZOOM FIX
+# ==========================================
+st.markdown("""
+<style>
+/* 1. Prevent iOS Safari Zoom on Inputs/Selects by forcing 16px font-size */
+input, textarea, select, div[data-baseweb="select"] *, div[data-baseweb="input"] *, div[data-baseweb="base-input"] * {
+    font-size: 16px !important;
+}
+
+/* 2. Modernize Metrics */
+div[data-testid="stMetricValue"] {
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    color: #FF4B4B !important;
+}
+
+/* 3. Sleeker cards/containers */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    border-radius: 16px !important;
+    border: 1px solid rgba(250, 250, 250, 0.1) !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 4. Thicker touch targets for mobile tabs */
+button[data-baseweb="tab"] p {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 if "user" not in st.session_state:
     st.session_state.user = None
 
