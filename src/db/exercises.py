@@ -1,5 +1,7 @@
+import streamlit as st
 from src.db.core import supabase
 
+@st.cache_data(ttl=3600)
 def get_exercises():
     """Fetch the master list of exercises for the dropdowns."""
     try:
@@ -16,6 +18,7 @@ def add_exercise(name: str, category: str):
             "name": name,
             "category": category
         }).execute()
+        st.cache_data.clear() # Clear cache so the new exercise shows up
         return True
     except Exception as e:
         print(f"Error adding exercise: {e}")

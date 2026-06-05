@@ -3,6 +3,7 @@ import json
 import os
 from src.config import MACROS
 
+@st.cache_data
 def load_meals_data():
     file_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "meals.json")
     with open(file_path, "r") as f:

@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import os
 
+@st.cache_data
 def load_program_data():
     file_path = os.path.join(os.path.dirname(__file__), "..", "..", "data", "program.json")
     with open(file_path, "r") as f:
