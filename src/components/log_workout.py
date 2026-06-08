@@ -1,10 +1,16 @@
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 from src.db.exercises import get_exercises
-from src.db.workouts import save_workout
+from src.db.workouts import save_workout, get_full_history
 from src.components import timer
 
 def render(user_id: str):
+    # Handle success message from previous save
+    if st.session_state.get("show_success"):
+        st.success(st.session_state.show_success)
+        st.session_state.show_success = False
+
     st.header("Log Session")
     
     # ==========================================
@@ -69,7 +75,7 @@ def render(user_id: str):
             )
             
         if success:
-            st.success(message)
+            st.session_state.show_success = "Workout saved successfully! 💪"
             # Clear input state on successful save to prep for next exercise
             st.session_state.workout_df = pd.DataFrame([
                 {"Set": i, "Weight (kg)": 0.0, "Reps": 0} for i in range(1, 6)
@@ -77,3 +83,33 @@ def render(user_id: str):
             st.rerun() # Refresh the UI instantly
         else:
             st.error(message)
+
+    # ==========================================
+    # 5. DAILY HISTORY
+    # ==========================================
+    st.divider()
+    st.header("📜 Daily History")
+    
+    selected_date = st.date_input("Select Date", value=datetime.today())
+    
+    history_data = get_full_history(user_id)
+    if history_data:
+        daily_sets = []
+        for row in history_data:
+            date_str = row['workout_logs']['created_at']
+            date_obj = datetime.fromisoformat(date_str.replace('Z', '+00:00')).date()
+            if date_obj == selected_date:
+                daily_sets.append({
+                    "Movement": row['exercises']['name'] if row.get('exercises') else "Unknown",
+                    "Set": row["set_number"],
+                    "Weight (kg)": float(row["weight"]),
+                    "Reps": int(row["reps"])
+                })
+        
+        if daily_sets:
+            df_daily = pd.DataFrame(daily_sets)
+            st.dataframe(df_daily, use_container_width=True, hide_index=True)
+        else:
+            st.info(f"No workouts logged for {selected_date.strftime('%b %d, %Y')}.")
+    else:
+        st.info("No workout history found.")

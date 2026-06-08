@@ -53,3 +53,15 @@ def get_workout_history(user_id: str):
     except Exception as e:
         print(f"Error fetching history: {e}")
         return []
+
+def get_full_history(user_id: str):
+    """Fetch all sets for a user joined with the parent workout date and exercise name."""
+    try:
+        response = supabase.table("set_logs") \
+            .select("weight, reps, set_number, exercises(name), workout_logs!inner(created_at)") \
+            .eq("user_id", user_id) \
+            .execute()
+        return response.data
+    except Exception as e:
+        print(f"Error fetching full history: {e}")
+        return []
